@@ -214,22 +214,22 @@ select.dark-mode {
     if (kategoria === 'A1 Starter') {
         flashcardSet.innerHTML = `
         <option value=''>Wybierz fiszki</option>
-            <option value='Ciało'>Ciało</option>
-            <option value='DOM'>DOM</option>
+            <option value='Ciało A1S'>Ciało A1S</option>
+            <option value='Dom A1S'>Dom A1S</option>
         `;
-    } else if (kategoria === 'A1 Elementary') {
+    } 
+    
+    else if (kategoria === 'A1 Elementary') {
         flashcardSet.innerHTML = `
         <option value=''>Wybierz fiszki</option>
-            <option value='Ciało2'>Ciało2</option>
-            <option value='Czas'>Czas</option>
+            <option value='Ciało A1E'>Ciało A1E</option>
+            <option value='Czas A1E'>Czas A1E</option>
            
         `;
     }
        
        
   
-
-   
 ">
     <option value="">Wybierz kategorię</option>
     <option value="A1 Starter">A1 Starter</option>
@@ -288,19 +288,19 @@ document.getElementById("word").style.fontSize = "17px";
 
 
     function getSheetUrl(setName) {
-        if (setName === "Ciało") {
+        if (setName === "Ciało A1S") {
             return "https://docs.google.com/spreadsheets/d/14I5BTD7jj5d9bpOYHZIBJ6ooHkvGuOa6/gviz/tq?tqx=out:csv";
         } 
         
-        else if (setName === "DOM") {
+        else if (setName === "Dom A1S") {
             return "https://docs.google.com/spreadsheets/d/1gxSlhsfJopijbglnTuHnnnYxKFJBg1SD/gviz/tq?tqx=out:csv";
         }
             
-        else if (setName === "Ciało2") {
+        else if (setName === "Ciało A1E") {
             return "https://docs.google.com/spreadsheets/d/1xodDoChNmQkWsgiehMas_mvzJDMAoIPh/gviz/tq?tqx=out:csv";
         }
 
-         else if (setName === "Czas") {
+         else if (setName === "Czas A1E") {
             return "https://docs.google.com/spreadsheets/d/1uCPDpxgyAXxl8e9ZyXNdozt6sMzFHWyT/gviz/tq?tqx=out:csv";
         }
         
@@ -500,4 +500,5 @@ document.addEventListener("DOMContentLoaded", () => {
  <button class="btnin2" onclick="speakGoogle(event)"style=margin-top:-10px;>&#128266;WYMOWA&#128266;</button>
 </body>
 </html>
+
 
