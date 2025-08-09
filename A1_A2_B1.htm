@@ -1,0 +1,753 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META content="text/html; charset=windows-1250" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 8.00.7601.17514"></HEAD>
+<BODY><PRE>&lt;!DOCTYPE html&gt;
+&lt;html lang="pl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Fiszki Angielskie&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            transition: background-color 4.3s, color 4.3s;
+        }
+
+        body.dark-mode {
+            background-color: #333;
+            color: #eee;
+        }
+
+        .flashcard {
+            width: 350px;
+            height: 400px;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.5);
+       
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s, background-color 4.3s;
+        }
+
+        .flashcard.dark-mode {
+            background-color: #121212;
+            box-shadow: 10px 15px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard .front, .flashcard .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border-radius: 30px;
+        }
+
+        .flashcard .back {
+            transform: rotateY(180deg);
+            flex-direction: column;
+        }
+
+        .counter {
+            font-size: 30px;
+            margin-bottom: 3px;
+        }
+
+        .btn, .btnin, .btnin2 {
+    width: 150px;
+    margin-top: 20px;
+    padding: 20px;
+   
+    border: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 15px;
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.1s ease, transform 0.1s ease;
+    outline: none; /* Usuń domyślne obramowanie */
+}
+
+.btn:active, .btnin:active, .btnin2:active {
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(2px);
+}
+        .btnin, .btnin2 {
+            margin-top: 60px;
+            width: 200px;
+            font-size: 20px;
+        }
+
+        .btnin2 {
+            width: 150px;
+            height: 50px;
+            margin-top: 5px;
+            margin-bottom: 0px;
+            padding: 20px;
+            font-size: 15px;
+            border-radius: 25px;
+        }
+
+        .btn:disabled {
+            background: #007BFF;
+            cursor: not-allowed;
+        }
+
+
+.btn:focus-visible, .btnin:focus-visible, .btnin2:focus-visible {
+    outline: 2px solid rgba(0, 123, 255, 0.5); /* Zmodyfikowane obramowanie */
+}
+
+.btn:focus:not(:focus-visible), .btnin:focus:not(:focus-visible), .btnin2:focus:not(:focus-visible){
+    outline: none;
+}
+
+       
+        .dropdown-container {
+            margin-top: 30px;
+        }
+
+    select {
+    width: 190px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    text-align-last: center;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 4.3s, color 1.3s, border-color 1.3s;
+    background-color: white; /* Domyślny kolor tła */
+    color: black; /* Domyślny kolor tekstu */
+}
+
+select.dark-mode {
+    background-color: #444; /* Ciemny kolor tła */
+    color: #eee; /* Jasny kolor tekstu */
+    border: 1px solid #777; /* Ciemniejszy kolor obramowania */
+}
+
+        .dark-mode .btn, .dark-mode .btnin, .dark-mode .btnin2 {
+            background-color: #555;
+            box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+        }
+       
+        .circle-toggle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: none;
+    background-color: #121212; /* Domyślny kolor tła */
+    color: white; /* Domyślny kolor ikony */
+             vertical-align: middle;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s;
+}
+
+.circle-toggle.dark-mode {
+    background-color: #666; /* Kolor tła w trybie ciemnym */
+    color: #eee; /* Kolor ikony w trybie ciemnym */
+    box-shadow: 4px 8px 10px rgba(255, 255, 255, 0.2);
+}
+
+.circle-toggle.inverted {
+    background-color: white; /* Odwrócony kolor tła */
+    color: #333; /* Odwrócony kolor ikony */
+}
+
+.circle-toggle.dark-mode.inverted {
+    background-color: #333; /* Odwrócony kolor tła w trybie ciemnym */
+    color: white; /* Odwrócony kolor ikony w trybie ciemnym */
+}
+
+
+.header-container {
+    display: flex;
+    align-items: center; /* Wyrównanie w pionie */
+    justify-content: flex-start; /* wyrównanie do lewej strony */
+    width: 100%; /* Zajmuje całą szerokość */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+   
+
+.centered-text {
+    flex-grow: 1; /* Wypełnia wolną przestrzeń */
+    text-align: center; /* Centrowanie tekstu */
+    margin-left: 20px; /* Dodaje odstęp od lewej strony tekstu */
+}
+        #error-message {
+            color: red;
+            display: none;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="header-container"&gt;
+    &lt;button id="darkModeToggle" class="circle-toggle"&gt;&amp;#9788;&lt;/button&gt;
+    &lt;span class="centered-text"&gt;WYBIERZ ZESTAW FISZEK&lt;/span&gt;
+&lt;/div&gt;
+       
+&lt;select id="kategoria" onchange="
+    var kategoria = this.value;
+    var flashcardSet = document.getElementById('flashcard-set');
+    flashcardSet.innerHTML = '';
+
+    if (kategoria === 'peppa') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='peppa1'&gt;Peppa 1&lt;/option&gt;
+            &lt;option value='peppa2'&gt;Peppa 2&lt;/option&gt;
+        `;
+    } else if (kategoria === 'ksiazki') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Książki1'&gt;Książki 1&lt;/option&gt;
+            &lt;option value='Książki2'&gt;Książki 2&lt;/option&gt;
+            &lt;option value='Książki3'&gt;Książki 3&lt;/option&gt;
+            &lt;option value='Recent'&gt;Recent&lt;/option&gt;
+        `;
+    }
+        else if (kategoria === 'A1A2') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='A1-A2(All)'&gt;A1-A2(All)&lt;/option&gt;
+            &lt;option value='A1-A2(1)'&gt;A1-A2(1)&lt;/option&gt;
+            &lt;option value='A1-A2(2)'&gt;A1-A2(2)&lt;/option&gt;
+            &lt;option value='A1-A2(3)'&gt;A1-A2(3)&lt;/option&gt;
+           
+        `;
+
+            }
+    else if (kategoria ==='stage1') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage1(1)'&gt;Stage 1(1)&lt;/option&gt;
+            &lt;option value='Stage1(2)'&gt;Stage 1(2)&lt;/option&gt;
+            &lt;option value='Stage1(3)'&gt;Stage 1(3)&lt;/option&gt;
+            &lt;option value='S1.1'&gt;S1.1&lt;/option&gt;
+            &lt;option value='S1.2'&gt;S1.2&lt;/option&gt;
+            &lt;option value='S1.3'&gt;S1.3&lt;/option&gt;
+        `;
+
+           }
+    else if (kategoria ==='stage2') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage2(1)'&gt;Stage 2(1)&lt;/option&gt;
+            &lt;option value='Stage2(2)'&gt;Stage 2(2)&lt;/option&gt;
+            &lt;option value='Stage2(3)'&gt;Stage 2(3)&lt;/option&gt;
+            &lt;option value='S2.1'&gt;S2.1&lt;/option&gt;
+            &lt;option value='S2.2'&gt;S2.2&lt;/option&gt;
+        `;
+
+            }
+    else if (kategoria ==='stage3') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage3(1)'&gt;Stage 3(1)&lt;/option&gt;
+            &lt;option value='Stage3(2)'&gt;Stage 3(2)&lt;/option&gt;
+            &lt;option value='Stage3(3)'&gt;Stage 3(3)&lt;/option&gt;
+            &lt;option value='Stage3(4)'&gt;Stage 3(4)&lt;/option&gt;
+        `;
+
+            }
+    else if (kategoria ==='stage4') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage4(1)'&gt;Stage 4(1)&lt;/option&gt;
+            &lt;option value='Stage4(2)'&gt;Stage 4(2)&lt;/option&gt;
+            &lt;option value='Stage4(3)'&gt;Stage 4(3)&lt;/option&gt;
+            &lt;option value='Stage4(4)'&gt;Stage 4(4)&lt;/option&gt;
+        `;
+
+    }
+    else if (kategoria ==='stage5') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage5(1)'&gt;Stage 5(1)&lt;/option&gt;
+            &lt;option value='Stage5(2)'&gt;Stage 5(2)&lt;/option&gt;
+            &lt;option value='Stage5(3)'&gt;Stage 5(3)&lt;/option&gt;
+            &lt;option value='Stage5(4)'&gt;Stage 5(4)&lt;/option&gt;
+        `;
+       
+   }
+    else if (kategoria ==='stage6') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage6(1)'&gt;Stage 6(1)&lt;/option&gt;
+            &lt;option value='Stage6(2)'&gt;Stage 6(2)&lt;/option&gt;
+            &lt;option value='Stage6(3)'&gt;Stage 6(3)&lt;/option&gt;
+            &lt;option value='Stage6(4)'&gt;Stage 6(4)&lt;/option&gt;
+        `;
+       
+   }
+    else if (kategoria ==='stage7') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage7(1)'&gt;Stage 7(1)&lt;/option&gt;
+            &lt;option value='Stage7(2)'&gt;Stage 7(2)&lt;/option&gt;
+            &lt;option value='Stage7(3)'&gt;Stage 7(3)&lt;/option&gt;
+            &lt;option value='Stage7(4)'&gt;Stage 7(4)&lt;/option&gt;
+        `;
+   }
+    else if (kategoria ==='stage8') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='Stage8(1)'&gt;Stage 8(1)&lt;/option&gt;
+            &lt;option value='Stage8(2)'&gt;Stage 8(2)&lt;/option&gt;
+            &lt;option value='Stage8(3)'&gt;Stage 8(3)&lt;/option&gt;
+            &lt;option value='Stage8(4)'&gt;Stage 8(4)&lt;/option&gt;
+            &lt;option value='Stage8(5)'&gt;Stage 8(5)&lt;/option&gt;
+        `;
+         }
+
+    else if (kategoria ==='NGK') {
+        flashcardSet.innerHTML = `
+        &lt;option value=''&gt;Wybierz fiszki&lt;/option&gt;
+            &lt;option value='NGK1'&gt;NGK1&lt;/option&gt;
+            &lt;option value='NGK2'&gt;NGK2&lt;/option&gt;
+            &lt;option value='NGK zdania'&gt;NGK zdania&lt;/option&gt;
+        `;
+         }
+"&gt;
+    &lt;option value=""&gt;Wybierz kategorię&lt;/option&gt;
+    &lt;option value="peppa"&gt;Świnka Peppa&lt;/option&gt;
+    &lt;option value="ksiazki"&gt;Książki&lt;/option&gt;
+    &lt;option value="A1A2"&gt;A1-A2&lt;/option&gt;
+    &lt;option value="stage1"&gt;Stage 1&lt;/option&gt;
+     &lt;option value="stage2"&gt;Stage 2&lt;/option&gt;
+    &lt;option value="stage3"&gt;Stage 3&lt;/option&gt;
+    &lt;option value="stage4"&gt;Stage 4&lt;/option&gt;
+    &lt;option value="stage5"&gt;Stage 5&lt;/option&gt;
+    &lt;option value="stage6"&gt;Stage 6&lt;/option&gt;
+    &lt;option value="stage7"&gt;Stage 7&lt;/option&gt;
+    &lt;option value="stage8"&gt;Stage 8&lt;/option&gt;
+    &lt;option value="NGK"&gt;NGK&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;select id="flashcard-set" onchange="changeFlashcardSet()"&gt;&lt;/select&gt;
+
+
+
+
+   
+    &lt;p&gt;Ile fiszek pozostało&lt;/p&gt;
+    &lt;div class="counter" id="counter"&gt;0/0&lt;/div&gt;
+     &lt;div class="flashcard" id="flashcard" onclick="flipFlashcard()"&gt;
+    &lt;div class="front" id="word"&gt;Loading...&lt;/div&gt;
+    &lt;div class="back"&gt;
+        &lt;div id="translation"&gt;Loading...&lt;/div&gt;
+        &lt;div id="phonetics"&gt;Loading...&lt;/div&gt;
+        &lt;button class="btn" id="showFourthColumnBtn" onclick="showFourthColumn(event)"&gt;Więcej&lt;/button&gt;
+       
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class="btn" id="prevBtn" onclick="changeFlashcard('prev')"&gt; Poprzednia &lt;/button&gt;
+    &lt;button class="btn" id="nextBtn" onclick="changeFlashcard('next')"style=margin-left:20px;&gt; Następna &lt;/button&gt;
+    &lt;div class="dropdown-container"&gt;
+       
+    &lt;/div&gt;
+
+&lt;script&gt;
+    let flashcards = [];
+    let currentIndex = 0;
+    let history = [];
+    const flashcardElement = document.getElementById("flashcard");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const body = document.body;
+    const darkModeToggle = document.getElementById("darkModeToggle");
+    const kategoriaSelect = document.getElementById("kategoria");
+    const flashcardSetSelect = document.getElementById("flashcard-set");
+
+
+   
+    function showFourthColumn() {
+    if (flashcards.length === 0) return;
+document.getElementById("word").style.fontSize = "17px";
+
+       
+    const card = flashcards[currentIndex];
+    document.getElementById("word").textContent = card.column4 || "Brak danych";
+}
+document.getElementById("word").style.fontSize = "17px";
+
+
+
+
+    function getSheetUrl(setName) {
+        if (setName === "peppa1") {
+            return "https://docs.google.com/spreadsheets/d/1g8KKo3CMvefulRHRjebbLquWtbUC7DxC/gviz/tq?tqx=out:csv";
+        } else if (setName === "peppa2") {
+            return "https://docs.google.com/spreadsheets/d/1_GAAI-uHZ6TzSETM86fXbiHEZq8kpQiG/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Książki1") {
+            return "https://docs.google.com/spreadsheets/d/1Y63gBjw840cEvcWxLHEmylkGFax-HfYn/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Książki2") {
+            return "https://docs.google.com/spreadsheets/d/13qFTWUbFZ0LJRdcRlGBGtlNNl1TOAUvO/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Książki3") {
+            return "https://docs.google.com/spreadsheets/d/1PMalVbficN093owUkfVruHwfyWepVjtv/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Recent") {
+            return "https://docs.google.com/spreadsheets/d/1uZ8eu5FVRvOkQzJJZmtGxPAeJ9iaJmiuELKKRFpT5fk/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(All)") {
+            return "https://docs.google.com/spreadsheets/d/12NVMLq7-0Mo9JDxBymrw4tW8k6fjtAjU/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(1)") {
+            return "https://docs.google.com/spreadsheets/d/1es9rXob1Aj-kZmdK-3whBWv7Ac3ApGgo/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(2)") {
+            return "https://docs.google.com/spreadsheets/d/1V0EtmS9qtuKlablEpv7jA-HB9EYHKgq0/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "A1-A2(3)") {
+            return "https://docs.google.com/spreadsheets/d/1BewmID2tMHyYwiBhxINbpZERjBdbRZ35/gviz/tq?tqx=out:csv";
+       
+            }
+            else if (setName === "Stage1(1)") {
+            return "https://docs.google.com/spreadsheets/d/1EsX81PNkqYQuppP1Yj26jh7WsoxFwpIr/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage1(2)") {
+            return "https://docs.google.com/spreadsheets/d/1DLY0782UTtAQwt782noQAhu5HvUF8S5i/gviz/tq?tqx=out:csv";
+
+                }
+            else if (setName === "Stage1(3)") {
+            return "https://docs.google.com/spreadsheets/d/1hxwbYdX718D-nF3hI6PGE7tkZ1JzIn0x/gviz/tq?tqx=out:csv";
+        }
+
+             else if (setName === "S1.1") {
+            return "https://docs.google.com/spreadsheets/d/1CIBec89XdjB9wfrcbPaBjYM9xurHLq5CnsUZhId4lqY/gviz/tq?tqx=out:csv";
+
+        }
+            else if (setName === "S1.2") {
+            return "https://docs.google.com/spreadsheets/d/1hQiI386_fFhnnm2YkyVLh6m17DLde6BA-apqW-ltYtw/gviz/tq?tqx=out:csv";
+            }    
+                 else if (setName === "S1.3") {
+            return "https://docs.google.com/spreadsheets/d/1VS_2fNZr9aN0_40MOuZ35qSice3ObIr834-xLB_yRdE/gviz/tq?tqx=out:csv";
+            }  
+               
+            else if (setName === "Stage2(1)") {
+            return "https://docs.google.com/spreadsheets/d/1VUqQnkD52DLIgwnGbSqB6_nx7mPeD-WJ/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage2(2)") {
+            return "https://docs.google.com/spreadsheets/d/18Z_UHZwLnQcpIsI4EFqd_sxSIAabe-er/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage2(3)") {
+            return "https://docs.google.com/spreadsheets/d/1SsSZQopYC2kleDjcc_24d44pIisULmxO/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "S2.1") {
+            return "https://docs.google.com/spreadsheets/d/14asesWJ5aJhNq38Qs6Wp_Pz0yaodLT1dwrM-td2NcQE/gviz/tq?tqx=out:csv";
+               
+        }
+
+            else if (setName === "S2.2") {
+            return "https://docs.google.com/spreadsheets/d/1MgXqqLqZPzkxQS5L2Se1kUIdyfESGG8igVYIZ0e9lx4/gviz/tq?tqx=out:csv";
+               
+            }
+               
+            else if (setName === "Stage3(1)") {
+            return "https://docs.google.com/spreadsheets/d/18h-LUiEwyqDgl9xV6cIFemN6wNYJ8K42/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage3(2)") {
+            return "https://docs.google.com/spreadsheets/d/1L6Z8G5YPS4uM6d2LVbU7gtkUiEF8u-uh/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage3(3)") {
+            return "https://docs.google.com/spreadsheets/d/1ns7dOBEF7dQOwqX9H-IOjw3qs9lj_XiE/gviz/tq?tqx=out:csv";
+        }
+                else if (setName === "Stage3(4)") {
+            return "https://docs.google.com/spreadsheets/d/1iy-2z5SZB_JqLB5QElweDlqdflJXBmG-/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage4(1)") {
+            return "https://docs.google.com/spreadsheets/d/1BwQXnUEl70RRUBpbzryl5PLlKG4AETad/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage4(2)") {
+            return "https://docs.google.com/spreadsheets/d/14VllqTLkQbpNjLO7XtJa1ONU0dLzScgI/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage4(3)") {
+            return "https://docs.google.com/spreadsheets/d/13LkDafLy27u3v_uvsgNCEjWt04VYxauT/gviz/tq?tqx=out:csv";
+        }
+                else if (setName === "Stage4(4)") {
+            return "https://docs.google.com/spreadsheets/d/1WaAcMKSNqgh4r6V0BgLv4Vi9g_M4CvDB/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(1)") {
+            return "https://docs.google.com/spreadsheets/d/17jrxHXVnTfcyXPIOTWYHZLDgFmhkq3Hu/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(2)") {
+            return "https://docs.google.com/spreadsheets/d/1YP5nK1b0-0rstZZu6aRaNDkW80Bcu1Fh/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage5(3)") {
+            return "https://docs.google.com/spreadsheets/d/14GsuxmPU7UKFZEeif-IyjiUIS1OFf2ZS/gviz/tq?tqx=out:csv";
+        }
+                else if (setName === "Stage5(4)") {
+            return "https://docs.google.com/spreadsheets/d/1KhN9tcUwWBRdqOAUAOjVvUyEh58PmwUT/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage6(1)") {
+            return "https://docs.google.com/spreadsheets/d/1TOHE82rXyCk6IMJNYJlk8e5PeHNaO8Bk/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage6(2)") {
+            return "https://docs.google.com/spreadsheets/d/1g2YHsWy9PK8s4lSB_Q37mKfucU_WPQi89nWABYOv7YA/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage6(3)") {
+            return "https://docs.google.com/spreadsheets/d/17U3LyLUFf7fjcm_TZKgie1mpUYe42x3h/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage6(4)") {
+            return "https://docs.google.com/spreadsheets/d/1B-IqSj0gfz1jsL0Gy0Ym-TliWCkchvX2/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage7(1)") {
+            return "https://docs.google.com/spreadsheets/d/1Akv4uFUdRuH1SqbNkgMyB7W9mn4_ANkn/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage7(2)") {
+            return "https://docs.google.com/spreadsheets/d/15q0q4mt0vIHu2iiYjiVhT0NNGwPndkg-/gviz/tq?tqx=out:csv";
+        }
+            else if (setName === "Stage7(3)") {
+            return "https://docs.google.com/spreadsheets/d/1h_Z8mWcXM74NZ8C-ElOnqTG9Hvi1e1z-/gviz/tq?tqx=out:csv";
+        }
+                else if (setName === "Stage7(4)") {
+            return "https://docs.google.com/spreadsheets/d/1zjhubgQvZaHaNrAnm_l60vFkqAY4NMTk/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(1)") {
+            return "https://docs.google.com/spreadsheets/d/1Z6rmU2pSKefUFi-xOnb3ddfSuTpljUWo/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(2)") {
+            return "https://docs.google.com/spreadsheets/d/1deNC9BuZFxTXkp13fu0IY06coU-4JlFR/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(3)") {
+            return "https://docs.google.com/spreadsheets/d/1d0SgrHYKm1DWk-9j6cF9cDSO-RddHUNc/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(4)") {
+            return "https://docs.google.com/spreadsheets/d/1g49lrdhK2-lTjbFAy7I4pko28GbXgBKV/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "Stage8(5)") {
+            return "https://docs.google.com/spreadsheets/d/1rjuLI6MbE-Em45CDj3u2FCvPlwWYwEFb/gviz/tq?tqx=out:csv";
+        }
+
+        else if (setName === "NGK1") {
+            return "https://docs.google.com/spreadsheets/d/198YJSikcfFtLNNDAYD9St7DjYMOxdPNNz4YJ-pzP_MY/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "NGK2") {
+            return "https://docs.google.com/spreadsheets/d/1RwA7xxLjOyT_dzfv7B0I7KKqMSaisQWpx8Rtdxwd4co/gviz/tq?tqx=out:csv";
+        }
+        else if (setName === "NGK zdania") {
+            return "https://docs.google.com/spreadsheets/d/18OGrL2OscJ2YpxGzAQzsfCB_21F-tm6V9tgU9-WO-rk/gviz/tq?tqx=out:csv";
+        }
+        return null;
+    }
+
+    async function fetchFlashcards(setName) {
+        const url = getSheetUrl(setName);
+        if (!url) return;
+
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const rows = text.split("\n").slice(1).filter(row =&gt; row.trim() !== "");
+           
+            flashcards = rows.map(row =&gt; {
+                const cols = row.split(",").map(col =&gt; col.replace(/"/g, "").trim());
+                 return { word: cols[0] || "Unknown", translation: cols[1] || "Unknown", phonetics: cols[2] || "Unknown",
+        column4: cols[3] || "Unknown"
+    };
+
+            });
+
+            // Losowanie kolejności tylko raz po załadowaniu
+            flashcards = flashcards.sort(() =&gt; Math.random() - 0.5);
+           
+            currentIndex = 0;
+            history = [];
+            updateFlashcard();
+        } catch (error) {
+            console.error("Błąd pobierania danych:", error);
+            document.getElementById("word").textContent = "Błąd ładowania";
+        }
+    }
+
+    function updateFlashcard() {
+        if (flashcards.length === 0) return;
+        flashcardElement.classList.remove("flipped"); // Reset do frontu
+        const card = flashcards[currentIndex];
+        document.getElementById("word").textContent = card.word;
+        document.getElementById("translation").textContent = card.translation;
+        document.getElementById("phonetics").textContent = card.phonetics;
+        document.getElementById("counter").textContent = `${currentIndex + 1}/${flashcards.length}`;
+        document.getElementById("word").style.fontSize = "40px";
+    }
+
+    function changeFlashcard(direction) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+
+        if (flashcardElement.classList.contains("flipped")) {
+            flashcardElement.classList.remove("flipped");
+            setTimeout(() =&gt; {
+                updateFlashcardIndex(direction);
+            }, 500);
+        } else {
+            updateFlashcardIndex(direction);
+        }
+
+        setTimeout(() =&gt; {
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }, 500);
+    }
+
+    function updateFlashcardIndex(direction) {
+        if (flashcards.length === 0) return;
+
+        if (direction === "next" &amp;&amp; currentIndex &lt; flashcards.length - 1) {
+            history.push(currentIndex);
+            currentIndex++;
+        } else if (direction === "prev" &amp;&amp; history.length &gt; 0) {
+            currentIndex = history.pop();
+        }
+
+        updateFlashcard();
+    }
+
+    function flipFlashcard() {
+        flashcardElement.classList.toggle("flipped");
+    }
+
+    function speakGoogle(event) {
+    event.stopPropagation();
+    if (flashcards.length === 0) return;
+
+    const word = flashcards[currentIndex].word;
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-GB"; // Ustawienie języka na brytyjski angielski
+
+   
+       
+        function setVoiceAndSpeak() {
+        const voices = speechSynthesis.getVoices();
+       
+        // Znajdujemy głos brytyjski - preferujemy naturalny głos
+        const britishVoice = voices.find(voice =&gt;
+            voice.lang.includes("en-GB") &amp;&amp;
+            (voice.name.includes("UK") || voice.name.includes("British") || voice.localService)
+        );
+
+        // Fallback, jeśli nie znaleziono konkretnego brytyjskiego głosu
+        if (britishVoice) {
+            utterance.voice = britishVoice;
+            console.log("Używam brytyjskiego głosu:", britishVoice.name);
+        } else {
+            // Jeśli nie ma konkretnego głosu brytyjskiego, nadal używamy en-GB
+            console.log("Nie znaleziono preferowanego brytyjskiego głosu, używam domyślnego en-GB");
+        }
+
+        utterance.rate = 0.9; // Lekkie spowolnienie dla lepszej wyraźności
+        utterance.pitch = 1.0; // Standardowa wysokość głosu
+       
+        speechSynthesis.speak(utterance);
+    }
+
+    // Sprawdzenie, czy głosy są już załadowane
+    if (speechSynthesis.getVoices().length &gt; 0) {
+        setVoiceAndSpeak();
+    } else {
+        speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+    }
+}
+
+// Opcjonalne wstępne ładowanie głosów
+window.addEventListener('DOMContentLoaded', () =&gt; {
+    speechSynthesis.getVoices(); // Wymuszenie załadowania listy głosów
+});
+
+
+    function changeFlashcardSet() {
+        const selectedSet = document.getElementById("flashcard-set").value;
+        fetchFlashcards(selectedSet);
+    }
+
+    fetchFlashcards("peppa1");
+   
+document.addEventListener("DOMContentLoaded", () =&gt; {
+    const flashcardElement = document.getElementById("flashcard");
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    flashcardElement.addEventListener("touchstart", (e) =&gt; {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    flashcardElement.addEventListener("touchend", (e) =&gt; {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const difference = touchStartX - touchEndX;
+
+        if (difference &gt; 50) {
+            changeFlashcard("next"); // Przesunięcie w lewo › następna fiszka
+        } else if (difference &lt; -50) {
+            changeFlashcard("prev"); // Przesunięcie w prawo › poprzednia fiszka
+        }
+       
+    }
+   
+     });
+ document.addEventListener("DOMContentLoaded", () =&gt; {
+        // ... (listener dotykowy bez zmian)
+
+        // Obsługa trybu ciemnego
+        darkModeToggle.addEventListener("click", () =&gt; {
+            body.classList.toggle("dark-mode");
+            flashcardElement.classList.toggle("dark-mode");
+            flashcardSetSelect.classList.toggle("dark-mode");
+            kategoriaSelect.classList.toggle("dark-mode");
+            darkModeToggle.classList.toggle('inverted');
+
+           
+        if (body.classList.contains("dark-mode")) {
+                darkModeToggle.innerHTML = "&amp;#9788;"; // Księżyc
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                darkModeToggle.innerHTML = "&amp;#9788;"; // Słońce
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
+
+        // Sprawdzenie zapisanego trybu ciemnego
+        if (localStorage.getItem("darkMode") === "enabled") {
+            body.classList.add("dark-mode");
+            flashcardElement.classList.add("dark-mode");
+            flashcardSetSelect.classList.add("dark-mode");
+            kategoriaSelect.classList.add("dark-mode"); // Dodano ustawienie dla kategoriaSelect
+          darkModeToggle.innerHTML = "&amp;#9788;"; // Księżyc
+            darkModeToggle.classList.add('inverted'); // Dodajemy klasę 'inverted'
+        }
+    });
+
+&lt;/script&gt;
+ &lt;button class="btnin2" onclick="speakGoogle(event)"style=margin-top:-10px;&gt;&amp;#128266;WYMOWA&amp;#128266;&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</PRE></BODY></HTML>
