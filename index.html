@@ -1201,7 +1201,7 @@ function speakFourthColumn(event) {
 
   // Na telefonie trochę wolniej (brzmi naturalniej), na desktopie normalnie
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-  utter.rate = isMobile ? 0.9 : 1.0;
+  utter.rate = isMobile ? 0.8 : 1.0;
   utter.pitch = 1.0;
 
   // Wybierz najlepszy dostępny głos (jeśli jest)
@@ -1240,6 +1240,7 @@ function speakFourthColumn(event) {
 
 </body>
 </html>
+
 
 
 
