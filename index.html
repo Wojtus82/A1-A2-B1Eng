@@ -495,6 +495,7 @@ body { display: flex; flex-direction: column; }
             <option value='Rzeczow. 3 A1E'>Rzeczow. 3 A1E</option>
             <option value='Rzeczow. 4 A1E'>Rzeczow. 4 A1E</option>
             <option value='Rzeczow. 5 A1E'>Rzeczow. 5 A1E</option>
+            <option value='A1 ALL'>A1 ALL</option>
             
             
             
@@ -580,6 +581,8 @@ else if (kategoria === 'A2 Low') {
     <option value='Travel and Transport A2K'>Travel and Transport A2K</option>
     <option value='Weather A2K'>Weather A2K</option>
     <option value='Work and Jobs A2K'>Work and Jobs A2K</option>
+    <option value='A2 ALL'>A2 ALL</option>
+    <option value='A1+A2 ALL'>A1+A2 ALL</option>
     
     
    
@@ -860,6 +863,9 @@ else if (kategoria === 'A2 Low') {
                                                                                                      else if (setName === "Zwierzęta A1E") {
             return "https://docs.google.com/spreadsheets/d/1lmuGf_yxeP2eiXzA90vdJ-UFAIo8vk4Y/gviz/tq?tqx=out:csv";
         }
+                                                                                                else if (setName === "A1 ALL") {
+            return "https://docs.google.com/spreadsheets/d/1u9mhrmo9KVlWV8fuChMqrF7P7YeVeBzP/gviz/tq?tqx=out:csv";
+        }
                                                                                                         
 
 
@@ -1051,6 +1057,12 @@ else if (kategoria === 'A2 Low') {
         }
                                                                                                             else if (setName === "Work and Jobs A2K") {
             return "https://docs.google.com/spreadsheets/d/1FBfcI_Fv_WOl8tyDLY_6kCTki_9iT3tv/gviz/tq?tqx=out:csv";
+        }
+                                                                                                                else if (setName === "A2 ALL") {
+            return "https://docs.google.com/spreadsheets/d/1klw5wK_CT63sUpsba34TjkgSwyuCkRYz/gviz/tq?tqx=out:csv";
+        }
+                                                                                                                    else if (setName === "A1+A2 ALL") {
+            return "https://docs.google.com/spreadsheets/d/10CNwpHyLfvtwSEUxSLwVtXROZHwo8-fi/gviz/tq?tqx=out:csv";
         }
                                                                                                                 
                                                           
@@ -1353,6 +1365,7 @@ function speakFourthColumn(event) {
 
 </body>
 </html>
+
 
 
 
