@@ -633,7 +633,9 @@ else if (kategoria === 'B1 Preliminary') {
     <option value='Travel and Transport 2 B1P'>Travel and Transport 2 B1P</option>
     <option value='Travel and Transport 3 B1P'>Travel and Transport 3 B1P</option>
     <option value='Weather B1P'>Weather B1P</option>
-    <option value='Work and Jobs B1P'>Work and Jobs B1P</option>
+    <option value='Work and Jobs 1 B1P'>Work and Jobs 1 B1P</option>
+    <option value='Work and Jobs 2 B1P'>Work and Jobs 2 B1P</option>
+    <option value='Work and Jobs 3 B1P'>Work and Jobs 3 B1P</option>
     <option value='B1 words'>B1 words</option>
     <option value='A1+A2+B1 words'>A1+A2+B1 words</option>
     
@@ -1244,8 +1246,14 @@ else if (kategoria === 'B1 Preliminary') {
                                                                                                 else if (setName === "Weather B1P") {
             return "https://docs.google.com/spreadsheets/d/1AdIJrSFKQsaATf-YjKo2tU-7Wc2h8siI/gviz/tq?tqx=out:csv";
         }
-                                                                                                    else if (setName === "Work and Jobs B1P") {
+                                                                                                    else if (setName === "Work and Jobs 1 B1P") {
             return "https://docs.google.com/spreadsheets/d/1fbCCHNJNHyHavHyrGaDc1QIeObhJcKRU/gviz/tq?tqx=out:csv";
+        }
+                                                                                                        else if (setName === "Work and Jobs 2 B1P") {
+            return "https://docs.google.com/spreadsheets/d/1bGiR1vSUNtqJG_JZFTkOKlhqbZN3YZN_/gviz/tq?tqx=out:csv";
+        }
+                                                                                                            else if (setName === "Work and Jobs 3 B1P") {
+            return "https://docs.google.com/spreadsheets/d/1TsKhtTMsTEHpeCn7O-lbLVkdOYPRJXOZ/gviz/tq?tqx=out:csv";
         }
                                                                                                         else if (setName === "B1 words") {
             return "https://docs.google.com/spreadsheets/d/10DLLKWhwK_UL0DU5IDVLwvitw1y3JX4N/gviz/tq?tqx=out:csv";
@@ -1558,6 +1566,7 @@ function speakFourthColumn(event) {
 
 </body>
 </html>
+
 
 
 
